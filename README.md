@@ -3,4 +3,5 @@
 
 - python version
 - tensorflow version
+- 안녕하세요
 - 
