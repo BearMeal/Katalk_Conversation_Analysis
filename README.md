@@ -1,7 +1,9 @@
 # 100million
 # 일억조의 프로젝트 레포지토리입니다.
 
-- python version
-- tensorflow version
-- 안녕하세요
-- 
+- python version   3.10.6
+- tensorflow version  2.11.0
+- 안녕하애요
+- 커밋 로그양식? 날짜_내용  ex) "3_16_댓글기능보완"
+- 클린코드 => 최대한 주석을 많이 달아서 이해하기 쉽게 하는게 나을듯
+- 팀원 각자 기능이나 다른거 추가할때마다 브랜치 만들어서 push해놓으면 팀장이 확인후 merge 실행
