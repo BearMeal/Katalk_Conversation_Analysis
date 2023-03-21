@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo List</title>
+</head>
+<body>
+    <h1><a href="">PHOTO LIST </a></h1>    
+    <a href="/new/">ADD NEW PHOTO</a>
+    <section>
+        {% for photo in PHOTOS %}
+            <div>
+                <h2><a href="{% url 'photo_detail' pk=photo.pk %}">{{photo.title}}</a></h2>
+                <img src=" {{photo.image}} " alt=" 사진 불러오기 오류" width="300">
+                <p> {{photo.author}} , {{photo.price}}원 </p>
+            </div>
+        {% endfor %}
+    </section>
+</body>
+</html>

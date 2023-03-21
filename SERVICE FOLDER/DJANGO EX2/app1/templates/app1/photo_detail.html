@@ -1,0 +1,17 @@
+<head>
+    <title>PHOTO DETAIL</title>
+</head>
+<body>
+    <h1><a href="{% url 'photo_list' %}">BACK TO LIST</a></h1>
+    <h2>PHOTO DETAIL</h2>
+    <a href="{% url 'photo_edit' pk=photo.pk%}">EDIT</a>
+    <section>
+        <div>
+            <h3> {{photo.title}} </h3>
+            <img src=" {{photo.image}}" alt="불러오기 에러" width="600">
+            <p> {{photo.description}}</p>
+            <p>{{photo.author}}, {{photo.price}}원</p>
+        </div>
+    </section>
+</body>
+</html>

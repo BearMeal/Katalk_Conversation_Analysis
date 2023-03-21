@@ -1,0 +1,16 @@
+<head>
+    <title>PHOTO NEW</title>
+</head>
+<body>
+    <h1><a href="{% url 'photo_list' %}">BACK TO LIST</a></h1>
+    <section>
+        <div>
+            <h2>NEW PHOTO</h2>
+            <form action="" method="POST">
+                {% csrf_token %}{{form.as_p}}
+                <button type="submit">SUBMIT</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
