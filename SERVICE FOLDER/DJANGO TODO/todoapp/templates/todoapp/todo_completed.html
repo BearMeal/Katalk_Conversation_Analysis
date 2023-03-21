@@ -9,22 +9,20 @@
   </head>
   <body>
     <div class="container">
-        <h1>TODO 목록 앱 </h1>
+        <h1>TODO 완료 목록 </h1>
         <p>
             <a href="{% url 'todo_post' %}">Add TODO</a>
-            <a href="{% url 'todo_completed' %}">완료한 TODO 목록</a>
+            <a href="{% url 'todo_list' %}">TODO 목록</a>
         </p>
         {% for todo in todos %}
             <a href="{% url 'todo_detail' pk=todo.pk%}">{{todo.title}}</a>
             {% if todo.important %}
                 <span> ! </span>
-                
             {% endif %}
             <div>
-                <a href="{% url 'todo_complete' pk=todo.pk %}">완료</a>
+                <a href="">완료</a>
                 <a href="{% url 'todo_edit' pk=todo.pk %}">수정하기</a>
             </div>
-            <p>--------------------------------</p>
         {% endfor %}
     </div>
   </body>
