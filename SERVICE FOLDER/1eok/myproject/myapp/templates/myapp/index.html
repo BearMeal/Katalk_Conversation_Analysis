@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Prediction App</title>
+</head>
+<body>
+    <h1>Upload your txt file</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Upload</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        // 결과 출력을 위한 JavaScript 코드를 작성하세요.
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const response = await fetch('/', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            const result = data.result;
+
+            const resultDiv = document.querySelector('#result');
+            resultDiv.textContent = `Result: ${result}`;
+        });
+    </script>
+</body>
+</html>
