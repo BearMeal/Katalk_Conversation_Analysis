@@ -1,6 +1,8 @@
 import os
 from django.conf import settings
-from tensorflow.keras.models import load_model
+import tensorflow as tf
+# from tf.keras. import load_model
+
 
 class MyModel:
     def __init__(self, model_name):
@@ -13,7 +15,7 @@ class MyModel:
 
     def load(self):
         if os.path.exists(self.model_path):
-            self.model = load_model(self.model_path)
+            self.model = tf.keras.models.load_model(self.model_path)
         else:
             raise FileNotFoundError(f"Model file {self.model_path} not found.")
         return self.model
