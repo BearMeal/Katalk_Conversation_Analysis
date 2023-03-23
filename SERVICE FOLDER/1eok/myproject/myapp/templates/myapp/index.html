@@ -3,6 +3,23 @@
 <head>
     <meta charset="utf-8">
     <title>My Prediction App</title>
+    <style>
+        #result {
+            border: 1px solid black;
+            overflow: auto;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload your txt file</h1>
@@ -28,8 +45,21 @@
             const result = data.result;
 
             const resultDiv = document.querySelector('#result');
-            resultDiv.textContent = `Result: ${result}`;
+            resultDiv.innerHTML = generateTable(result);
         });
+
+        function generateTable(result) {
+            let table = '<table>';
+            for (let row = 0; row < result.length; row++) {
+                table += '<tr>';
+                for (let col = 0; col < result[row].length; col++) {
+                    table += '<td>' + result[row][col] + '</td>';
+                }
+                table += '</tr>';
+            }
+            table += '</table>';
+            return table;
+        }
     </script>
 </body>
 </html>

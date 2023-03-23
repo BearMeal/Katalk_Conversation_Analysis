@@ -29,5 +29,6 @@ def predict_result(txt_file):
     model = MyModel("100millon_model").load()
     txt_file2 = txt_to_numpy_array(txt_file)
     result = model.predict(txt_file2)
+    
     return result
     # pass
