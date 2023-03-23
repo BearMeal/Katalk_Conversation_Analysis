@@ -27,10 +27,7 @@ class TodoCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model=Todo
         fields=[
-            
             'title',
             'description',
-            
-            
             'important',
         ]
