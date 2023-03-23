@@ -25,6 +25,6 @@ class MyModel:
             self.load()
         # 예측 작업 수행
         # 예를 들어:
-        # result = self.model.predict(input_data)
-        # return result
-        pass
+        result = self.model.predict(input_data)
+        return result
+        # pass

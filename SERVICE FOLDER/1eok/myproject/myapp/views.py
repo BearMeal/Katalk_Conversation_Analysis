@@ -11,7 +11,8 @@ def index(request):
             txt_file = handle_uploaded_file(request.FILES['file'])
             result = predict_result(txt_file)  # 딥러닝 모델 호출 및 결과 예측
             os.remove(txt_file)  # 임시 파일 삭제
-            return JsonResponse({'result': result})
+            prediction_list = result.tolist()
+            return JsonResponse({'result': prediction_list})
     else:
         form = UploadFileForm()
     return render(request, 'myapp/index.html', {'form': form})
