@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import UploadFileForm
 from .utils import handle_uploaded_file, predict_result
+from .models import UploadedFile
 
 def index(request):
     if request.method == 'POST':
@@ -17,3 +18,8 @@ def index(request):
     else:
         form = UploadFileForm()
     return render(request, 'myapp/index.html', {'form': form})
+
+def handle_uploaded_file(file):
+    uploaded_file = UploadedFile(file=file)
+    uploaded_file.save()
+    return uploaded_file.file.path
