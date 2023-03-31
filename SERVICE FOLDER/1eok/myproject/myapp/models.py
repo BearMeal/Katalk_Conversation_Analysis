@@ -2,6 +2,11 @@ import os
 from django.conf import settings
 import tensorflow as tf
 # from tf.keras. import load_model
+from django.db import models
+
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='uploaded_files/')
+    upload_date = models.DateTimeField(auto_now_add=True)
 
 
 class MyModel:
