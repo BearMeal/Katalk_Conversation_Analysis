@@ -24,3 +24,12 @@ def handle_uploaded_file(file):
     uploaded_file.file.save(file.name, file, save=True)
     uploaded_file.save()
     return uploaded_file.file.path
+
+def about(request):
+    return render(request, 'myapp/about.html')
+
+def post(request):
+    return render(request, 'myapp/post.html')
+
+def contact(request):
+    return render(request, 'myapp/contact.html')
