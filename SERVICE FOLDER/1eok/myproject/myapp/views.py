@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import UploadFileForm
-from .utils import predict_result
+from .utils import predict_result2
 from .models import UploadedFile
 
 def index(request):
@@ -10,7 +10,7 @@ def index(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             txt_file = handle_uploaded_file(request.FILES['file'])
-            result = predict_result(txt_file)  # 딥러닝 모델 호출 및 결과 예측
+            result = predict_result2(txt_file)  # 딥러닝 모델 호출 및 결과 예측
             # os.remove(txt_file)  # 임시 파일 삭제
             prediction_list = result.tolist()
             print(len(prediction_list), len(prediction_list[0]))
