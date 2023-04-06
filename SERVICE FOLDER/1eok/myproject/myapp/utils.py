@@ -15,13 +15,9 @@ def txt_to_numpy_array(file_path):
         raise FileNotFoundError(f"{file_path} does not exist.")
 
 
-def predict_result(txt_file):
-    # 딥러닝 모델을 사용하여 결과를 예측하고 반환하는 코드를 작성하세요.
-    # 예를 들어:
-    
+def predict_result(txt_file):    
     model = MyModel("100millon_model").load()
     txt_file2 = txt_to_numpy_array(txt_file)
     result = model.predict(txt_file2)
     
     return result
-    # pass
