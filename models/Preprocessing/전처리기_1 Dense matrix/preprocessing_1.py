@@ -10,15 +10,27 @@ import numpy as np
 import pandas as pd
 from konlpy.tag import Mecab
 
-
 train_file = tf.keras.utils.get_file('train.txt', 'https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt')
 train_text = open(train_file,'rb').read().decode(encoding='utf-8')
 
+=> 원시데이터 DB에넣는다.
+컬럼 contents, label 두개 df_train 방식처럼해서 들어간다. 
 
 df_train = pd.DataFrame({
-    'feature':[ row.split('\t')[1] for row in train_text.split('\n')[1:] if row.count('\t')>0 ],
-    'target': [ int(row.split('\t')[2]) for row in train_text.split('\n')[1:] if row.count('\t')>0]
+    'contents':[ row.split('\t')[1] for row in train_text.split('\n')[1:] if row.count('\t')>0 ],
+    'label': [ int(row.split('\t')[2]) for row in train_text.split('\n')[1:] if row.count('\t')>0]
 })
+
+=> 여기서 부터 전처리과정 DB에서 불러와서
+모듈불러와서 전처리실행
+
+
+전처리 => X_train_dense = np.expand_dims( X.toarray(), axis=-1 )  #밀집행렬
+=> DNN에 학습
+
+
+
+
 
 #데이터 크기 지정
 df_train = df_train[::6]
