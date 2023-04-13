@@ -49,4 +49,19 @@ class Product(models.Model):
 class NaverMovieData(models.Model):
     content = models.CharField(max_length=160)
     label = models.IntegerField()
-    
+
+class Sentiword_dict1(models.Model):
+    content = models.CharField(max_length=32)
+    label = models.IntegerField()
+
+class Sentiword_dict2(models.Model):
+    content = models.CharField(max_length=10)
+    sentiment = models.CharField(max_length=10)
+    frequency = models.FloatField()
+    degree1 = models.FloatField()
+    degree2 = models.FloatField()
+
+class User_kakao_data(models.Model):
+    sender=models.CharField(max_length=10)
+    content = models.CharField(max_length=200)
+    t_date=models.TimeField()
