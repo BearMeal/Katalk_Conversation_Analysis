@@ -64,4 +64,4 @@ class Sentiword_dict2(models.Model):
 class User_kakao_data(models.Model):
     sender=models.CharField(max_length=10)
     content = models.CharField(max_length=200)
-    t_date=models.TimeField()
+    time=models.TimeField()
