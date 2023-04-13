@@ -33,3 +33,20 @@ class MyModel:
         result = self.model.predict(input_data)
         return result
         # pass
+
+class TrainingData(models.Model):
+    input_data = models.JSONField()
+    output_data = models.JSONField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Training Data {self.id}"
+    
+class Product(models.Model):
+    name = models.CharField(max_length=70)
+    price = models.IntegerField()
+
+class NaverMovieData(models.Model):
+    content = models.CharField(max_length=160)
+    label = models.IntegerField()
+    

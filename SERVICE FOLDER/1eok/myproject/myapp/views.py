@@ -31,5 +31,5 @@ def about(request):
 def post(request):
     return render(request, 'myapp/post.html')
 
-def contact(request):
-    return render(request, 'myapp/contact.html')
+def detail(request):
+    return render(request, 'myapp/detail.html')
