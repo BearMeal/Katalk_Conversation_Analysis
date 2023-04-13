@@ -1,12 +1,12 @@
 import os
-import tempfile
-from myapp.models import MyModel
+from myapp.models import MyModel, User_kakao_data
 import numpy as np
 import pickle
 from django.conf import settings
 from konlpy.tag import Okt
 import re
 from soynlp.normalizer import repeat_normalize
+from datetime import datetime
 
 def txt_to_numpy_array(file_path):
     if os.path.isfile(file_path):
@@ -86,29 +86,73 @@ def txt_to_numpy_array(file_path):
 #     predictions = np.round(loaded_model.predict(X_received_texts_dense))
     
 #     return predictions
+def convert_time_format(korean_time_str):
+    korean_time_str = korean_time_str.replace("오전", "AM").replace("오후", "PM")
+    
+    try:
+        formatted_time = datetime.strptime(korean_time_str, '%p %I:%M').strftime('%H:%M:%S')
+        # print(formatted_time + '형식으로 변환 완료')
+    except ValueError:
+        formatted_time = None
+        # print('시간변환실패')
+    return formatted_time
 
-def predict_result2(txt_file):
+def save_data_to_db(sentences):
+    for sentence in sentences:
+        # 중복 데이터 확인
+        duplicate = User_kakao_data.objects.filter(
+            sender=sentence[0], content=sentence[2], time=sentence[1]
+        ).exists()
+
+        # 중복되지 않은 경우에만 데이터 저장
+        if not duplicate:
+            user_kakao_data = User_kakao_data(
+                sender=sentence[0],
+                content=sentence[2],
+                time=sentence[1]
+            )
+            user_kakao_data.save()
+
+'''
+def get_from_txt(file):
+    data = file.read().decode('utf-8').split('\n')
+    sentences = []
+    for line in data:
+        pattern = r'\[(.*?)\]\s+\[(.*?)\]\s+(.+)'
+        match = re.match(pattern, line)
+        if match:
+            name = match.group(1)  # 첫 번째 대괄호 안의 단어 추출
+            time = match.group(2)  # 두 번째 대괄호 안의 단어 추출
+            content = match.group(3)  # 대괄호 뒤의 내용 추출
+            # print(name, time, content)
+            temp = [name, time, content]
+            sentences.append(temp)
+    return sentences
+
+'''
+def get_from_txt(file):
+    data = file.read().decode('utf-8').split('\n')
+    sentences = []
+    for line in data:
+        pattern = r'\[(.*?)\]\s+\[(.*?)\]\s+(.+)'
+        match = re.match(pattern, line)
+        if match:
+            name = match.group(1)  # 첫 번째 대괄호 안의 단어 추출
+            time = convert_time_format(match.group(2))  # 두 번째 대괄호 안의 단어 추출 후 시간 변환
+            content = match.group(3)  # 대괄호 뒤의 내용 추출
+            # print(name, time, content)
+            if time is not None:  # 시간 변환이 성공한 경우에만 sentences에 추가
+                temp = [name, time, content]
+                sentences.append(temp)
+    return sentences
+
+def predict_result2(sentences):
     
     def load_vectorizer(name):
         model_path = os.path.join(settings.MODEL_DIR, f"{name}.pkl")
         with open(model_path, "rb") as f:
             vectorizer = pickle.load(f)
         return vectorizer
-    
-    def get_from_txt(txt):
-        data= open(txt,"r", encoding='utf-8').read().split('\n')
-        sentences=[]
-        for line in data:
-            pattern = r'\[(.*?)\]\s+\[(.*?)\]\s+(.+)'
-            match = re.match(pattern, line)
-            if match:
-                name = match.group(1)  # 첫 번째 대괄호 안의 단어 추출
-                time = match.group(2)  # 두 번째 대괄호 안의 단어 추출
-                content = match.group(3)  # 대괄호 뒤의 내용 추출
-                # print(name, time, content)
-                temp=[name,time,content]
-                sentences.append(temp)    
-        return sentences
     
     def clean_korean_text(text):
         # 특수 문자 및 숫자 제거
@@ -123,10 +167,10 @@ def predict_result2(txt_file):
     loaded_model = MyModel("model2").load()
     loaded_vectorizer = load_vectorizer('model2')
 
-    received_texts= []
-    for i in get_from_txt(txt_file): 
+    received_texts = []
+    for i in sentences:
         if i[0] == target_name:
-            received_texts.append( i[2] )
+            received_texts.append(i[2])
             
     # 이모티콘, 사진, 샵검색 제거 
     clean1_received_texts = []
@@ -139,7 +183,6 @@ def predict_result2(txt_file):
     clean2_received_texts= [clean_korean_text(i) for i in clean1_received_texts]
 
     #정제된 텍스트를 벡터화하기전에 토큰화한다
-    from konlpy.tag import Okt
     tokenized_clean_test_texts =[ Okt().morphs(i) for i in clean2_received_texts ]
     tokenized_clean_test_texts
 
