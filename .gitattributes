@@ -1,2 +1,0 @@
-mecab/mecab-ko-dic/sys.dic filter=lfs diff=lfs merge=lfs -text
-mecab/mecab-ko-dic/matrix.def filter=lfs diff=lfs merge=lfs -text
