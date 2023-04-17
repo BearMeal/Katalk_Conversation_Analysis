@@ -8,6 +8,7 @@ import re
 from soynlp.normalizer import repeat_normalize
 from datetime import datetime
 
+
 def txt_to_numpy_array(file_path):
     if os.path.isfile(file_path):
         data = []
@@ -166,11 +167,16 @@ def predict_result2(sentences):
     target_name = '김하영'
     loaded_model = MyModel("model2").load()
     loaded_vectorizer = load_vectorizer('model2')
+    print('***load_vectorizer 완료***')
 
     received_texts = []
+    
     for i in sentences:
         if i[0] == target_name:
             received_texts.append(i[2])
+            print('***{} 발견 성공***'.format(target_name))
+        else:
+            print('***{} 발견 실패***'.format(target_name))
             
     # 이모티콘, 사진, 샵검색 제거 
     clean1_received_texts = []
@@ -197,6 +203,7 @@ def predict_result2(sentences):
 
     # 불러온 모델을 사용하여 예측 수행
     predictions = np.round(loaded_model.predict(X_received_texts_dense))
+    print(type(predictions))
 
     return predictions
 
