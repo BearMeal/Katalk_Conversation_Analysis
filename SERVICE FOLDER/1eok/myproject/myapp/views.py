@@ -25,7 +25,9 @@ def index(request):
         if form.is_valid():
             uploaded_file= request.FILES['file']
             sentences = get_from_txt(uploaded_file)  # 텍스트 파일에서 데이터 추출
+            print('***get_from_txt 완료***')
             save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
+            print('***save_data_to_db 완료***')
             result = predict_result2(sentences)  # 딥러닝 모델 호출 및 결과 예측
             # os.remove(txt_file)  # 임시 파일 삭제
             prediction_list = result.tolist()
