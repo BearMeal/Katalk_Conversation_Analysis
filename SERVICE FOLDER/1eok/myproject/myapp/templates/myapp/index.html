@@ -60,6 +60,8 @@
                     <button type="submit">전송</button>
                 </form>
             </div>
+            <!-- Add this before the result div -->
+            <div id="loading" class="col-12 text-center" style="display: none;">분석중</div>
             <div id="result" class="col-12 text-center"></div>
         </div>
         <!-- Footer-->
@@ -107,17 +109,40 @@
             const form = document.querySelector('form');
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
-
+            
+                // Show loading text and start updating it
+                const loadingDiv = document.querySelector('#loading');
+                loadingDiv.style.display = 'block';
+                const loadingInterval = setInterval(updateLoadingText, 500);
+            
                 const formData = new FormData(form);
-                const response = await fetch('/', {
-                    method: 'POST',
-                    body: formData,
-                });
-                const data = await response.json();
-                const result = data.result;
-
+            
+                let data;
+                try {
+                    const responsePromise = fetch('/', {
+                        method: 'POST',
+                        body: formData,
+                    });
+            
+                    // Wait for both the response and the minimum 3 seconds
+                    const [response] = await Promise.all([responsePromise, sleep(3000)]);
+            
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    data = await response.json();
+                } catch (error) {
+                    // Handle the error and display "오류 발생"
+                    console.error('Error:', error);
+                    data = { result: [['에러 발생']] };
+                } finally {
+                    // Stop updating and hide loading text
+                    clearInterval(loadingInterval);
+                    loadingDiv.style.display = 'none';
+                }
+            
                 const resultDiv = document.querySelector('#result');
-                resultDiv.innerHTML = generateTable(result);
+                resultDiv.innerHTML = generateTable(data.result);
             });
 
             function generateTable(result) {
@@ -132,6 +157,26 @@
                 table += '</table>';
                 return table;
             }
+
+            function updateLoadingText() {
+                const loadingDiv = document.querySelector('#loading');
+                const loadingText = loadingDiv.textContent;
+                if (loadingText.length < 6) {
+                    loadingDiv.textContent += '.';
+                } else {
+                    loadingDiv.textContent = '분석중';
+                }
+            }
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            const inputFile = document.querySelector('input[type="file"]');
+            inputFile.addEventListener('change', () => {
+                const resultDiv = document.querySelector('#result');
+                resultDiv.innerHTML = '';
+            });
         </script>
     </body>
 </html>

@@ -29,7 +29,7 @@ def index(request):
             save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
             print('***save_data_to_db 완료***')
             result = predict_result2(sentences)  # 딥러닝 모델 호출 및 결과 예측
-            # os.remove(txt_file)  # 임시 파일 삭제
+            
             prediction_list = result.tolist()
             return JsonResponse({'result': prediction_list})
     else:
