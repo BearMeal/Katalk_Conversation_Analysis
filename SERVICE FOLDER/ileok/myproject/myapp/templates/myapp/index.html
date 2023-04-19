@@ -15,6 +15,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
     </head>
     <body>
         <!-- Navigation-->
@@ -64,17 +65,21 @@
             <div id="loading" class="col-12 text-center" style="display: none;">분석중</div>
             <div id="result" class="col-12 text-center"></div>
             <div class="col-12 text-center">
-                <div class="d-flex justify-content-center">
-                    <button id="toggleButton1" class="btn btn-primary">모델1</button>
-                    <button id="toggleButton2" class="btn btn-primary">모델2</button>
-                    <button id="toggleButton3" class="btn btn-primary">모델3</button>
-                    <button id="toggleButton4" class="btn btn-primary">모델4</button>
+                <div style="margin-top: 30px;">
+                    <div class="d-flex justify-content-center">
+                        <button id="toggleButton1" class="btn btn-primary">모델1</button>
+                        <button id="toggleButton2" class="btn btn-primary">모델2</button>
+                        <button id="toggleButton3" class="btn btn-primary">모델3</button>
+                        <button id="toggleButton4" class="btn btn-primary">모델4</button>
+                    </div>
                 </div>
             </div>
             
             
-            <div id="chartContainer" style="width: 70%; margin: auto; margin-top: 100px; display: none;">
+            <div id="chartContainer" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
                 <canvas id="myChart"></canvas>
+
+                <p style="margin-top: 10px;">이곳에 간단한 설명글을 넣으세요.</p>
             </div>
         </div>
         <!-- Footer-->
@@ -123,6 +128,7 @@
             const form = document.querySelector('form');
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
+                console.log('submit 동작 확인');
             
                 // Show loading text and start updating it
                 const loadingDiv = document.querySelector('#loading');
@@ -167,26 +173,14 @@
                     toggleButton2.style.display = 'block';
                     toggleButton3.style.display = 'block'; // Show the Model 1 button
                     toggleButton4.style.display = 'block';
+
+                    const chartContainer = document.querySelector('#chartContainer');
+                    chartContainer.style.display = 'none';
+                    drawBarChart(data.result);
                 } else {
                     const resultDiv = document.querySelector('#result');
                     resultDiv.innerHTML = data.result;
                 }
-
-                
-
-                toggleButton1.addEventListener('click', () => {
-                    drawBarChart(data.result); // Draw the chart when the button is clicked
-                });    
-                toggleButton2.addEventListener('click', () => {
-                    drawBarChart(data.result); // Draw the chart when the button is clicked
-                });   
-                toggleButton3.addEventListener('click', () => {
-                    drawBarChart(data.result); // Draw the chart when the button is clicked
-                });   
-                toggleButton4.addEventListener('click', () => {
-                    drawBarChart(data.result); // Draw the chart when the button is clicked
-                });           
-                
             });
 
             const toggleButton1 = document.getElementById('toggleButton1');
@@ -201,50 +195,48 @@
             const chartContainer = document.getElementById('chartContainer');
 
             toggleButton1.addEventListener('click', () => {
+                const chartContainer = document.querySelector('#chartContainer');
                 if (chartContainer.style.display === 'none') {
                     chartContainer.style.display = 'block';
+                    drawBarChart(data.result);
+                    //toggleButton1.classList.add('active'); // Add "active" class to the button
                 } else {
                     chartContainer.style.display = 'none';
+                    //toggleButton1.classList.remove('active'); // Remove "active" class from the button
                 }
             });
-
-            {% comment %} function generateTable(result) {
-                let table = '<table>';
-                for (let row = 0; row < result.length; row++) {
-                    table += '<tr>';
-                    for (let col = 0; col < result[row].length; col++) {
-                        table += '<td>' + result[row][col] + '</td>';
-                    }
-                    table += '</tr>';
-                }
-                table += '</table>';
-                return table;
-            } {% endcomment %}
             
+            let myChart; // Declare myChart outside of drawBarChart function
+
             function drawBarChart(result) {
-                const labels = ['a', 'b'];
+                const labels = [result[0][0], result[1][0]];
                 const data = {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'A1',
-                            //data: [result[0][0], result[1][0]],
-                            data: [30, 15],
+                            label: '긍정문장 갯수',
+                            data: [result[0][1], result[1][1]],
+                            
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'A2',
-                            //data: [result[0][1], result[1][1]],
-                            data:[7,8],
+                            label: '부정문장 갯수',
+                            data: [result[0][2], result[1][2]],
+                            
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1
                         }
                     ]
                 };
-            
+
+                // Destroy the previous chart
+                if (myChart) {
+                    myChart.destroy();
+                }
+
                 const config = {
                     type: 'bar',
                     data: data,
@@ -260,8 +252,8 @@
                         }
                     }
                 };
-            
-                const myChart = new Chart(
+
+                myChart = new Chart(
                     document.getElementById('myChart'),
                     config
                 );
@@ -284,8 +276,19 @@
             const inputFile = document.querySelector('input[type="file"]');
             inputFile.addEventListener('change', () => {
                 const resultDiv = document.querySelector('#result');
-                resultDiv.innerHTML = '';
+                resultDiv.innerHTML = '';        
+                const chartContainer = document.getElementById('chartContainer');
+                chartContainer.style.display='none';
+                const toggleButton1 = document.getElementById('toggleButton1');
+                const toggleButton2 = document.getElementById('toggleButton2');
+                const toggleButton3 = document.getElementById('toggleButton3');
+                const toggleButton4 = document.getElementById('toggleButton4');
+                toggleButton1.style.display = 'none'; // Initially hide the button
+                toggleButton2.style.display = 'none'; // Initially hide the button
+                toggleButton3.style.display = 'none'; // Initially hide the button
+                toggleButton4.style.display = 'none'; // Initially hide the button
             });
         </script>
     </body>
 </html>
+

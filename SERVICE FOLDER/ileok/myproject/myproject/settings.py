@@ -16,9 +16,9 @@ import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-rel_path = BASE_DIR / "../../../finalmodels/model1/"
+# rel_path = BASE_DIR / "../../../finalmodels/model1/"
+rel_path = BASE_DIR / "../../../finalmodels/"
 sys.path.insert(0, str(rel_path))
-
 
 MODEL_DIR = rel_path
 STATICFILES_DIRS = [

@@ -7,7 +7,8 @@ from konlpy.tag import Okt
 import re
 from soynlp.normalizer import repeat_normalize
 from datetime import datetime
-import kakao_predict
+from model1 import kakao_predict1
+# from model2 import kakao_predict2
 
 
 def txt_to_numpy_array(file_path):
@@ -148,72 +149,72 @@ def get_from_txt(file):
                 sentences.append(temp)
     return sentences
 
-def predict_result2(sentences):
+# def predict_result2(sentences):
     
-    def load_vectorizer(name):
-        model_path = os.path.join(settings.MODEL_DIR, f"{name}.pkl")
-        with open(model_path, "rb") as f:
-            vectorizer = pickle.load(f)
-        return vectorizer
+#     def load_vectorizer(name):
+#         model_path = os.path.join(settings.MODEL_DIR, f"{name}.pkl")
+#         with open(model_path, "rb") as f:
+#             vectorizer = pickle.load(f)
+#         return vectorizer
     
-    def clean_korean_text(text):
-        # 특수 문자 및 숫자 제거
-        text = re.sub(r'[^가-힣ㄱ-ㅎㅏ-ㅣ\s]', '', text)
-        # 반복되는 자음, 모음 제거 (e.g., 'ㅋㅋㅋ' -> 'ㅋ')
-        text = repeat_normalize(text, num_repeats=1)
-        # 띄어쓰기 정규화 (연속된 공백 문자를 하나의 공백 문자로 변환)
-        text = re.sub(r'\s+', ' ', text).strip()
-        return text
+#     def clean_korean_text(text):
+#         # 특수 문자 및 숫자 제거
+#         text = re.sub(r'[^가-힣ㄱ-ㅎㅏ-ㅣ\s]', '', text)
+#         # 반복되는 자음, 모음 제거 (e.g., 'ㅋㅋㅋ' -> 'ㅋ')
+#         text = repeat_normalize(text, num_repeats=1)
+#         # 띄어쓰기 정규화 (연속된 공백 문자를 하나의 공백 문자로 변환)
+#         text = re.sub(r'\s+', ' ', text).strip()
+#         return text
 
-    target_name = '김하영'
-    loaded_model = MyModel("model2").load()
-    loaded_vectorizer = load_vectorizer('model2')
-    print('***load_vectorizer 완료***')
+#     target_name = '김하영'
+#     loaded_model = MyModel("model2").load()
+#     loaded_vectorizer = load_vectorizer('model2')
+#     print('***load_vectorizer 완료***')
 
-    received_texts = []
+#     received_texts = []
     
-    for i in sentences:
-        if i[0] == target_name:
-            received_texts.append(i[2])
-            print('***{} 발견 성공***'.format(target_name))
-        else:
-            print('***{} 발견 실패***'.format(target_name))
+#     for i in sentences:
+#         if i[0] == target_name:
+#             received_texts.append(i[2])
+#             print('***{} 발견 성공***'.format(target_name))
+#         else:
+#             print('***{} 발견 실패***'.format(target_name))
             
-    # 이모티콘, 사진, 샵검색 제거 
-    clean1_received_texts = []
-    for i in received_texts:
-        if '샵검색:' not in i: 
-            if "이모티콘" not in i:
-                if '샵검색:' not in i:
-                    clean1_received_texts.append(str(i))
+#     # 이모티콘, 사진, 샵검색 제거 
+#     clean1_received_texts = []
+#     for i in received_texts:
+#         if '샵검색:' not in i: 
+#             if "이모티콘" not in i:
+#                 if '샵검색:' not in i:
+#                     clean1_received_texts.append(str(i))
 
-    clean2_received_texts= [clean_korean_text(i) for i in clean1_received_texts]
+#     clean2_received_texts= [clean_korean_text(i) for i in clean1_received_texts]
 
-    #정제된 텍스트를 벡터화하기전에 토큰화한다
-    tokenized_clean_test_texts =[ Okt().morphs(i) for i in clean2_received_texts ]
-    tokenized_clean_test_texts
+#     #정제된 텍스트를 벡터화하기전에 토큰화한다
+#     tokenized_clean_test_texts =[ Okt().morphs(i) for i in clean2_received_texts ]
+#     tokenized_clean_test_texts
 
-    #토큰화된걸 ' ' 공백한칸을 기준으로 다시 합쳐준다.
-    rejoined_tokenized_test_texts = [' '.join(i) for i in tokenized_clean_test_texts]
-    rejoined_tokenized_test_texts
+#     #토큰화된걸 ' ' 공백한칸을 기준으로 다시 합쳐준다.
+#     rejoined_tokenized_test_texts = [' '.join(i) for i in tokenized_clean_test_texts]
+#     rejoined_tokenized_test_texts
 
-    # 불러온 벡터라이저로 테스트 데이터 변환
-    X_received_texts = loaded_vectorizer.transform(rejoined_tokenized_test_texts)
-    X_received_texts_dense = X_received_texts.toarray()
+#     # 불러온 벡터라이저로 테스트 데이터 변환
+#     X_received_texts = loaded_vectorizer.transform(rejoined_tokenized_test_texts)
+#     X_received_texts_dense = X_received_texts.toarray()
 
 
-    # 불러온 모델을 사용하여 예측 수행
-    predictions = np.round(loaded_model.predict(X_received_texts_dense))
-    print(type(predictions))
+#     # 불러온 모델을 사용하여 예측 수행
+#     predictions = np.round(loaded_model.predict(X_received_texts_dense))
+#     print(type(predictions))
 
-    return predictions
+#     return predictions
 
-def predict_result3(sentences):
+def predict_result1(sentences):
     rel_path="../../../finalmodels/model1/"
     
     loaded_model = MyModel('GRU_model_1').load()
     print('model load OK')
-    result= kakao_predict.predict_final(
+    result= kakao_predict1.predict_final(
     loaded_model,
     rel_path+'GRU_tokenizer.pkl',
     sentences)

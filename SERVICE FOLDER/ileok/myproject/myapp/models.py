@@ -11,7 +11,7 @@ class UploadedFile(models.Model):
 
 class MyModel:
     def __init__(self, model_name):
-        model_path = os.path.join(settings.MODEL_DIR, f"{model_name}.h5")
+        model_path = os.path.join(settings.MODEL_DIR, 'model1', f"{model_name}.h5")
         self.model_path = model_path
         self.model = None
 
