@@ -7,6 +7,7 @@ from konlpy.tag import Okt
 import re
 from soynlp.normalizer import repeat_normalize
 from datetime import datetime
+import kakao_predict
 
 
 def txt_to_numpy_array(file_path):
@@ -207,6 +208,16 @@ def predict_result2(sentences):
 
     return predictions
 
+def predict_result3(sentences):
+    rel_path="../../../finalmodels/model1/"
     
+    loaded_model = MyModel('GRU_model_1').load()
+    print('model load OK')
+    result= kakao_predict.predict_final(
+    loaded_model,
+    rel_path+'GRU_tokenizer.pkl',
+    sentences)
+    return result
+
 
 

@@ -12,10 +12,15 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_DIR = os.path.join(BASE_DIR, 'models')
+rel_path = BASE_DIR / "../../../finalmodels/model1/"
+sys.path.insert(0, str(rel_path))
+
+
+MODEL_DIR = rel_path
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]

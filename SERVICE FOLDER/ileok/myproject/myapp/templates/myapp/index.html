@@ -65,7 +65,10 @@
             <div id="result" class="col-12 text-center"></div>
             <div class="col-12 text-center">
                 <div class="d-flex justify-content-center">
-                    <button id="toggleButton" class="btn btn-primary">모델1</button>
+                    <button id="toggleButton1" class="btn btn-primary">모델1</button>
+                    <button id="toggleButton2" class="btn btn-primary">모델2</button>
+                    <button id="toggleButton3" class="btn btn-primary">모델3</button>
+                    <button id="toggleButton4" class="btn btn-primary">모델4</button>
                 </div>
             </div>
             
@@ -123,10 +126,16 @@
             
                 // Show loading text and start updating it
                 const loadingDiv = document.querySelector('#loading');
+                toggleButton1.style.display = 'none'; // Initially hide the button
+                toggleButton2.style.display = 'none'; // Initially hide the button
+                toggleButton3.style.display = 'none'; // Initially hide the button
+                toggleButton4.style.display = 'none';
+
                 loadingDiv.style.display = 'block';
                 const loadingInterval = setInterval(updateLoadingText, 500);
             
                 const formData = new FormData(form);
+                var errorboom = false;
             
                 let data;
                 try {
@@ -146,25 +155,52 @@
                     // Handle the error and display "오류 발생"
                     console.error('Error:', error);
                     data = { result: [['에러 발생']] };
+                    errorboom = true;
                 } finally {
                     // Stop updating and hide loading text
                     clearInterval(loadingInterval);
                     loadingDiv.style.display = 'none';
                 }
-                toggleButton.style.display = 'block'; // Show the Model 1 button
-                toggleButton.addEventListener('click', () => {
+
+                if (!errorboom) {
+                    toggleButton1.style.display = 'block';
+                    toggleButton2.style.display = 'block';
+                    toggleButton3.style.display = 'block'; // Show the Model 1 button
+                    toggleButton4.style.display = 'block';
+                } else {
+                    const resultDiv = document.querySelector('#result');
+                    resultDiv.innerHTML = data.result;
+                }
+
+                
+
+                toggleButton1.addEventListener('click', () => {
                     drawBarChart(data.result); // Draw the chart when the button is clicked
-                });            
-                //const resultDiv = document.querySelector('#result');
-                //resultDiv.innerHTML = generateTable(data.result);
+                });    
+                toggleButton2.addEventListener('click', () => {
+                    drawBarChart(data.result); // Draw the chart when the button is clicked
+                });   
+                toggleButton3.addEventListener('click', () => {
+                    drawBarChart(data.result); // Draw the chart when the button is clicked
+                });   
+                toggleButton4.addEventListener('click', () => {
+                    drawBarChart(data.result); // Draw the chart when the button is clicked
+                });           
+                
             });
 
-            const toggleButton = document.getElementById('toggleButton');
-            toggleButton.style.display = 'none'; // Initially hide the button
+            const toggleButton1 = document.getElementById('toggleButton1');
+            const toggleButton2 = document.getElementById('toggleButton2');
+            const toggleButton3 = document.getElementById('toggleButton3');
+            const toggleButton4 = document.getElementById('toggleButton4');
+            toggleButton1.style.display = 'none'; // Initially hide the button
+            toggleButton2.style.display = 'none'; // Initially hide the button
+            toggleButton3.style.display = 'none'; // Initially hide the button
+            toggleButton4.style.display = 'none'; // Initially hide the button
 
             const chartContainer = document.getElementById('chartContainer');
 
-            toggleButton.addEventListener('click', () => {
+            toggleButton1.addEventListener('click', () => {
                 if (chartContainer.style.display === 'none') {
                     chartContainer.style.display = 'block';
                 } else {
