@@ -150,3 +150,36 @@ def delete_data_kakao(idx):
     execute_query(conn, query, data)
     conn.close()
 
+# korean
+def create_data_korean(content, label):
+    conn = sqlite3.connect(db_path)
+    query = "INSERT INTO myapp_korean (id, content, label) VALUES (?, ?)"
+    data = (id, content, label)
+    conn.execute(conn, query, data)
+    conn.commit()
+    conn.close()
+
+def get_data_korean(idx):
+    conn = sqlite3.connect(db_path)
+    query = "SELECT * FROM myapp_korean WHERE id=?"
+    data = (idx,)
+    cursor = conn.execute(conn, query, data)
+    result = cursor.fetchone()
+    conn.close()
+    return result
+
+def get_all_data_korean():
+    conn = sqlite3.connect(db_path)
+    query = "SELECT * FROM myapp_korean"
+    cursor = conn.execute(conn, query)
+    result = cursor.fetchall()
+    conn.close()
+    return result
+
+def delete_data_korean(idx):
+    conn = sqlite3.connect(db_path)
+    query = "DELETE FROM myapp_korean WHERE id=?"
+    data = (idx,)
+    conn.execute(conn, query, data)
+    conn.commit()
+    conn.close()
