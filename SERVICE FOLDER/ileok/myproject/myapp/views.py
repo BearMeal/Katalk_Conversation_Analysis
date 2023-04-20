@@ -28,9 +28,10 @@ def index(request):
             save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
             print('***save_data_to_db 완료***')
             result = predict_result1(sentences)  # 딥러닝 모델 호출 및 결과 예측
-            print('model1 OK')
+            print('***model1 OK***')
             result2 = predict_result2(sentences)  # 딥러닝 모델2 호출 및 결과 예측
-            print('model2 OK')
+            print('***model2 OK***')
+            print(result2)
             return JsonResponse({'result': result, 'result2': result2})
 
     else:
