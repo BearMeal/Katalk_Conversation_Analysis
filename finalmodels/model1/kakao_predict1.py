@@ -68,7 +68,7 @@ def get_morphs(clean_text):
             temp2.append(okt.morphs(sent))
         temp1.append(temp2)
     morphs_text =temp1
-    del temp1, temp2
+    del temp1
     return morphs_text
 
 #벡터화

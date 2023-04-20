@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import UploadFileForm
-from .utils import predict_result1, get_from_txt, save_data_to_db
+from .utils import predict_result1, predict_result2, get_from_txt, save_data_to_db
 '''
 def index(request):
     if request.method == 'POST':
@@ -28,7 +28,11 @@ def index(request):
             save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
             print('***save_data_to_db 완료***')
             result = predict_result1(sentences)  # 딥러닝 모델 호출 및 결과 예측
-            return JsonResponse({'result': result})
+            print('model1 OK')
+            result2 = predict_result2(sentences)  # 딥러닝 모델2 호출 및 결과 예측
+            print('model2 OK')
+            return JsonResponse({'result': result, 'result2': result2})
+
     else:
         form = UploadFileForm()
     return render(request, 'myapp/index.html', {'form': form})
