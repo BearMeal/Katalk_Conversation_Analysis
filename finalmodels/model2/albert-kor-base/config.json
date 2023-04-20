@@ -1,5 +1,4 @@
 {
-  "_name_or_path": "kykim/albert-kor-base",
   "architectures": [
     "AlbertForSequenceClassification"
   ],
@@ -11,8 +10,8 @@
   "eos_token_id": 3,
   "gap_size": 0,
   "hidden_act": "gelu_new",
-  "hidden_dropout_prob": 0,
-  "hidden_size": 768,
+  "hidden_dropout_prob": 0.2,
+  "hidden_size": 400,
   "id2label": {
     "0": "LABEL_0",
     "1": "LABEL_1",
@@ -34,9 +33,9 @@
   "max_position_embeddings": 256,
   "model_type": "albert",
   "net_structure_type": 0,
-  "num_attention_heads": 12,
+  "num_attention_heads": 10,
   "num_hidden_groups": 1,
-  "num_hidden_layers": 12,
+  "num_hidden_layers": 10,
   "num_memory_blocks": 0,
   "pad_token_id": 0,
   "position_embedding_type": "absolute",
