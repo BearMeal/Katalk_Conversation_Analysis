@@ -8,9 +8,9 @@ form.addEventListener('submit', async (event) => {
     toggleButton1.style.display = 'none'; // Initially hide the button
     toggleButton2.style.display = 'none'; // Initially hide the button
     toggleButton3.style.display = 'none'; // Initially hide the button
-    toggleButton4.style.display = 'none';
 
     loadingDiv.style.display = 'block';
+
     const loadingInterval = setInterval(updateLoadingText, 500);
 
     const formData = new FormData(form);
@@ -45,7 +45,6 @@ form.addEventListener('submit', async (event) => {
         toggleButton1.style.display = 'block';
         toggleButton2.style.display = 'block';
         toggleButton3.style.display = 'block'; // Show the Model 1 button
-        toggleButton4.style.display = 'block';
 
         const chartContainer1 = document.querySelector('#chartContainer1');
         chartContainer1.style.display = 'none';
@@ -53,6 +52,10 @@ form.addEventListener('submit', async (event) => {
         const chartContainer2 = document.querySelector('#chartContainer2');
         chartContainer2.style.display = 'none';
         drawPieCharts(data.result2)
+        const chartContainer3 = document.querySelector('#chartContainer3');
+        chartContainer3.style.display = 'none';
+        drawPieCharts2(data.result3)
+
     } else {
         const resultDiv = document.querySelector('#result');
         resultDiv.innerHTML = data.result;
@@ -62,28 +65,24 @@ form.addEventListener('submit', async (event) => {
 const toggleButton1 = document.getElementById('toggleButton1');
 const toggleButton2 = document.getElementById('toggleButton2');
 const toggleButton3 = document.getElementById('toggleButton3');
-const toggleButton4 = document.getElementById('toggleButton4');
+
 toggleButton1.style.display = 'none'; // Initially hide the button
 toggleButton2.style.display = 'none'; // Initially hide the button
 toggleButton3.style.display = 'none'; // Initially hide the button
-toggleButton4.style.display = 'none'; // Initially hide the button
+
 
 toggleButton1.addEventListener('click', () => {
     const chartContainer1 = document.querySelector('#chartContainer1');
     const chartContainer2 = document.querySelector('#chartContainer2');
     const chartContainer3 = document.querySelector('#chartContainer3');
-    const chartContainer4 = document.querySelector('#chartContainer4');
     chartContainer2.style.display = 'none';
     chartContainer3.style.display = 'none';
-    chartContainer4.style.display = 'none';
 
     if (chartContainer1.style.display === 'none') {
         chartContainer1.style.display = 'block';
         drawBarChart(data.result);
-        //toggleButton1.classList.add('active'); // Add "active" class to the button
     } else {
         chartContainer1.style.display = 'none';
-        //toggleButton1.classList.remove('active'); // Remove "active" class from the button
     }
 });
 
@@ -91,14 +90,13 @@ toggleButton2.addEventListener('click', () => {
     const chartContainer1 = document.querySelector('#chartContainer1');
     const chartContainer2 = document.querySelector('#chartContainer2');
     const chartContainer3 = document.querySelector('#chartContainer3');
-    const chartContainer4 = document.querySelector('#chartContainer4');
+
     chartContainer1.style.display = 'none';
     chartContainer3.style.display = 'none';
-    chartContainer4.style.display = 'none';
 
     if (chartContainer2.style.display === 'none') {
         chartContainer2.style.display = 'block';
-        drawPieChart(data.result);
+        drawPieCharts(data.result2);
         //toggleButton1.classList.add('active'); // Add "active" class to the button
     } else {
         chartContainer2.style.display = 'none';
@@ -106,9 +104,29 @@ toggleButton2.addEventListener('click', () => {
     }
 });
 
+toggleButton3.addEventListener('click', () => {
+    const chartContainer1 = document.querySelector('#chartContainer1');
+    const chartContainer2 = document.querySelector('#chartContainer2');
+    const chartContainer3 = document.querySelector('#chartContainer3');
+
+    chartContainer1.style.display = 'none';
+    chartContainer2.style.display = 'none';
+
+    if (chartContainer3.style.display === 'none') {
+        chartContainer3.style.display = 'block';
+        drawPieCharts2(data.result3);
+        //toggleButton1.classList.add('active'); // Add "active" class to the button
+    } else {
+        chartContainer3.style.display = 'none';
+        //toggleButton1.classList.remove('active'); // Remove "active" class from the button
+    }
+});
+
 let myChart1;
 let myPieChart1;// Declare myChart outside of drawBarChart function
 let myPieChart2;
+let myPieChart3;
+let myPieChart4;
 
 function drawBarChart(result) {
     const labels = [result[0][0], result[1][0]];
@@ -182,14 +200,14 @@ function drawPieCharts(result) {
       maintainAspectRatio: false,
       plugins: {
         tooltip: {
-          callbacks: {
-            label: function (context) {
-              const label = context.label || '';
-              const value = context.formattedValue || '';
-              return `${label}: ${value}`;
+            callbacks: {
+              label: function (context) {
+                const label = context.label || '';
+                const value = context.formattedValue || '';
+                return `${label}: ${value}`;
+              }
             }
-          }
-        },
+          },
         legend: {
           display: false
         },
@@ -220,18 +238,137 @@ function drawPieCharts(result) {
     if (myPieChart2) {
         myPieChart2.destroy();
     }
-
+    
     myPieChart1 = new Chart(
-        document.getElementById('myPieChart1'),
+        document.getElementById('myPieChart2-1'),
         pieChart1Config
     );
 
     myPieChart2 = new Chart(
-        document.getElementById('myPieChart2'),
+        document.getElementById('myPieChart2-2'),
         pieChart2Config
     );
+
+    // 추가: 문장 데이터를 출력
+    const createSentences = (containerId, negativeData, positiveData) => {
+        const container = document.getElementById(containerId);
+        const tbody = container.querySelector('tbody');
+        tbody.innerHTML = '';
+    
+        const tr1 = document.createElement('tr');
+        const th1 = document.createElement('th');
+        th1.textContent = '매우부정';
+        th1.style.color = 'red';
+        tr1.appendChild(th1);
+        tbody.appendChild(tr1);
+    
+        negativeData.forEach(sentence => {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.textContent = sentence;
+            td.style.color = 'red';
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        });
+    
+        const tr2 = document.createElement('tr');
+        const th2 = document.createElement('th');
+        th2.textContent = '매우긍정';
+        th2.style.color = 'blue';
+        tr2.appendChild(th2);
+        tbody.appendChild(tr2);
+    
+        positiveData.forEach(sentence => {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.textContent = sentence;
+            td.style.color = 'blue';
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        });
+    };
+
+    createSentences('chart2-1Sentences', result[0][2], result[0][3]);
+    createSentences('chart2-2Sentences', result[1][2], result[1][3]);
 }
 
+function drawPieCharts2(result) {
+    const chartNames = [result[0][0], result[1][0]];
+  
+    const createPieConfig = (chartName, data, backgroundColor, labels) => {
+        return {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: chartName,
+              data: data,
+              backgroundColor: backgroundColor,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      const label = context.label || '';
+                      const value = context.formattedValue || '';
+                      return `${label}: ${value}`;
+                    }
+                  }
+                },
+              legend: {
+                display: false
+              },
+              title: {
+                display: true,
+                text: chartName,
+                position: 'bottom'
+              }
+            },
+          }
+        };
+      };
+  
+      const labels1 = result[0][2];
+      const labels2 = result[1][2];
+      const labels = [...new Set([...labels1, ...labels2])]; // 중복된 항목을 제거한 후, 하나의 배열로 합침
+      
+      const colors = {
+        '놀람': 'rgba(76, 0, 76, 1)',
+        '슬픔': 'rgba(153, 0, 153, 1)',
+        '행복': 'rgba(153, 50, 204, 1)',
+        '중립': 'rgba(153, 102, 153, 1)',
+        '분노': 'rgba(204, 0, 204, 1)',
+        '공포': 'rgba(204, 51, 255, 1)',
+        '혐오': 'rgba(229, 204, 229, 1)'
+      };
+      
+      const backgroundColors = labels.map(label => colors[label]);
+      
+      const pieChart3Config = createPieConfig(chartNames[0], result[0][1], backgroundColors, labels);
+      const pieChart4Config = createPieConfig(chartNames[1], result[1][1], backgroundColors, labels);
+      
+      if (myPieChart3) {
+        myPieChart3.destroy();
+      }
+      
+      if (myPieChart4) {
+        myPieChart4.destroy();
+      }
+      
+      myPieChart3 = new Chart(
+        document.getElementById('myPieChart3-1'),
+        pieChart3Config
+      );
+      
+      myPieChart4 = new Chart(
+        document.getElementById('myPieChart3-2'),
+        pieChart4Config
+      );
+}
 
 function updateLoadingText() {
     const loadingDiv = document.querySelector('#loading');
@@ -257,14 +394,12 @@ inputFile.addEventListener('change', () => {
     chartContainer2.style.display='none';
     const chartContainer3 = document.getElementById('chartContainer3');
     chartContainer3.style.display='none';
-    const chartContainer4 = document.getElementById('chartContainer4');
-    chartContainer4.style.display='none';
     const toggleButton1 = document.getElementById('toggleButton1');
     const toggleButton2 = document.getElementById('toggleButton2');
     const toggleButton3 = document.getElementById('toggleButton3');
-    const toggleButton4 = document.getElementById('toggleButton4');
+
     toggleButton1.style.display = 'none'; // Initially hide the button
     toggleButton2.style.display = 'none'; // Initially hide the button
     toggleButton3.style.display = 'none'; // Initially hide the button
-    toggleButton4.style.display = 'none'; // Initially hide the button
+
 });

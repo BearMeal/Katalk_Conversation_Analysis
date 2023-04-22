@@ -9,6 +9,7 @@ from soynlp.normalizer import repeat_normalize
 from datetime import datetime
 from model1 import kakao_predict1
 from model2 import kakao_predict2
+from model3 import kakao_predict3
 from transformers import TFAlbertForSequenceClassification, AlbertTokenizer
 
 
@@ -215,7 +216,6 @@ def predict_result1(sentences):
     rel_path="../../../finalmodels/model1/"
     
     loaded_model = MyModel('GRU_model_1').load()
-    print('model1 load OK')
     result= kakao_predict1.predict_final(
     loaded_model,
     rel_path+'GRU_tokenizer.pkl',
@@ -233,4 +233,13 @@ def predict_result2(sentences):
     )
     return result
 
-
+def predict_result3(sentences):
+    model_path = "../../../finalmodels/model3/albert-kor-base/"
+    tokenizer_path="../../../finalmodels/model3/albert-kor-base/albert_tokenizer.pkl"
+    
+    result= kakao_predict3.predict_final(
+        model_path,
+        tokenizer_path,
+        sentences
+    )
+    return result

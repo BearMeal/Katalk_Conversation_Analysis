@@ -15,7 +15,25 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            table, th, td {
+                border: 1px solid black;
+            }
+            
+            th, td {
+                padding: 5px;
+                text-align: left;
+            }
+            .table-container {
+                box-sizing: border-box;
+                padding: 10px;
+            }
+        </style>
     </head>
     <body>
         <!-- Navigation-->
@@ -61,19 +79,22 @@
                     <button type="submit">전송</button>
                 </form>
             </div>
-            <!-- Add this before the result div -->
-            <div id="loading" class="col-12 text-center" style="display: none;">분석중</div>
+            <!-- Add this before the result div -->            
+            <div id="loading" class="col-12 text-center" style="display: none;">
+                분석중
+            </div>
+
             <div id="result" class="col-12 text-center"></div>
             <div class="col-12 text-center">
                 <div style="margin-top: 30px;">
-                    <div class="d-flex justify-content-center">
-                        <button id="toggleButton1" class="btn btn-primary">모델1</button>
-                        <button id="toggleButton2" class="btn btn-primary">모델2</button>
-                        <button id="toggleButton3" class="btn btn-primary">모델3</button>
-                        <button id="toggleButton4" class="btn btn-primary">모델4</button>
-                    </div>
+                  <div class="d-flex justify-content-center">
+                    <button id="toggleButton1" class="btn btn-secondary">모델1</button>
+                    <button id="toggleButton2" class="btn btn-secondary">모델2</button>
+                    <button id="toggleButton3" class="btn btn-secondary">모델3</button>
+                    
+                  </div>
                 </div>
-            </div>
+              </div>
             
             <div>
                 <div id="chartContainer1" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
@@ -85,24 +106,60 @@
                     <div>
                         <div style="display: flex; justify-content: space-between; width: 100%;">
                             <div style="width: 50%;">
-                                <canvas id="myPieChart1"></canvas>
+                                <div id="chartContainer2-1" style="height: 400px; width: 100%;">
+                                    <canvas id="myPieChart2-1"></canvas>
+                                </div>
+                                <div class="table-container-1 sentences-container" id="chart2-1Sentences">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>문장</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div style="width: 50%;">
-                                <canvas id="myPieChart2"></canvas>
+                                <div id="chartContainer2-2" style="height: 400px; width: 100%;">
+                                    <canvas id="myPieChart2-2"></canvas>
+                                </div>
+                                <div class="table-container-2 sentences-container" id="chart2-2Sentences">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>문장</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                     <p style="margin-top: 10px;">이곳에 모델2 간단한 설명글을 넣으세요.</p>
                 </div>
+
                 <div id="chartContainer3" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
-                    <canvas id="myChart3"></canvas>
-    
+                    <div>
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <div style="width: 50%;">
+                                <div id="chartContainer3-1" style="height: 400px; width: 100%;">
+                                    <canvas id="myPieChart3-1"></canvas>
+                                </div>                                
+                            </div>
+                            <div style="width: 50%;">
+                                <div id="chartContainer3-2" style="height: 400px; width: 100%;">
+                                    <canvas id="myPieChart3-2"></canvas>
+                                </div>                                
+                            </div>
+                        </div>
+                        
+                    </div>
                     <p style="margin-top: 10px;">이곳에 모델3 간단한 설명글을 넣으세요.</p>
-                </div>
-                <div id="chartContainer4" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
-                    <canvas id="myChart4"></canvas>
-    
-                    <p style="margin-top: 10px;">이곳에 모델4 간단한 설명글을 넣으세요.</p>
                 </div>
             </div>
             
