@@ -4,9 +4,9 @@ import tensorflow as tf
 # from tf.keras. import load_model
 from django.db import models
 
-class UploadedFile(models.Model):
-    file = models.FileField(upload_to='uploaded_files/')
-    upload_date = models.DateTimeField(auto_now_add=True)
+# class UploadedFile(models.Model):
+#     file = models.FileField(upload_to='uploaded_files/')
+#     upload_date = models.DateTimeField(auto_now_add=True)
 
 
 class MyModel:
@@ -34,17 +34,17 @@ class MyModel:
         return result
         # pass
 
-class TrainingData(models.Model):
-    input_data = models.JSONField()
-    output_data = models.JSONField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+# class TrainingData(models.Model):
+#     input_data = models.JSONField()
+#     output_data = models.JSONField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"Training Data {self.id}"
+#     def __str__(self):
+#         return f"Training Data {self.id}"
     
-class Product(models.Model):
-    name = models.CharField(max_length=70)
-    price = models.IntegerField()
+# class Product(models.Model):
+#     name = models.CharField(max_length=70)
+#     price = models.IntegerField()
 
 class NaverMovieData(models.Model):
     content = models.CharField(max_length=160)

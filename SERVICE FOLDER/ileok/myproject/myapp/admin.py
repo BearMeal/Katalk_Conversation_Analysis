@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import UploadedFile
 from .models import NaverMovieData, Sentiword_dict1, Sentiword_dict2 , User_kakao_data
 # Register your models here.
-admin.site.register(UploadedFile)
 admin.site.register(NaverMovieData)
 admin.site.register(Sentiword_dict1)
 admin.site.register(Sentiword_dict2)

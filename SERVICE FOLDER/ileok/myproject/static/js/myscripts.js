@@ -48,13 +48,13 @@ form.addEventListener('submit', async (event) => {
 
         const chartContainer1 = document.querySelector('#chartContainer1');
         chartContainer1.style.display = 'none';
-        drawBarChart(data.result);
+        drawModel1Chart(data.result);
         const chartContainer2 = document.querySelector('#chartContainer2');
         chartContainer2.style.display = 'none';
-        drawPieCharts(data.result2)
+        drawModel2Charts(data.result2)
         const chartContainer3 = document.querySelector('#chartContainer3');
         chartContainer3.style.display = 'none';
-        drawPieCharts2(data.result3)
+        drawModel3Charts(data.result3)
 
     } else {
         const resultDiv = document.querySelector('#result');
@@ -80,7 +80,7 @@ toggleButton1.addEventListener('click', () => {
 
     if (chartContainer1.style.display === 'none') {
         chartContainer1.style.display = 'block';
-        drawBarChart(data.result);
+        drawModel1Chart(data.result);
     } else {
         chartContainer1.style.display = 'none';
     }
@@ -96,7 +96,7 @@ toggleButton2.addEventListener('click', () => {
 
     if (chartContainer2.style.display === 'none') {
         chartContainer2.style.display = 'block';
-        drawPieCharts(data.result2);
+        drawModel2Charts(data.result2);
         //toggleButton1.classList.add('active'); // Add "active" class to the button
     } else {
         chartContainer2.style.display = 'none';
@@ -114,7 +114,7 @@ toggleButton3.addEventListener('click', () => {
 
     if (chartContainer3.style.display === 'none') {
         chartContainer3.style.display = 'block';
-        drawPieCharts2(data.result3);
+        drawModel3Charts(data.result3);
         //toggleButton1.classList.add('active'); // Add "active" class to the button
     } else {
         chartContainer3.style.display = 'none';
@@ -128,7 +128,7 @@ let myPieChart2;
 let myPieChart3;
 let myPieChart4;
 
-function drawBarChart(result) {
+function drawModel1Chart(result) {
     const labels = [result[0][0], result[1][0]];
     const data = {
         labels: labels,
@@ -180,7 +180,7 @@ function drawBarChart(result) {
 }
 
 // 모델2 파이그래프 1
-function drawPieCharts(result) {
+function drawModel2Charts(result) {
     const chartNames = [result[0][0], result[1][0]];
     const labels = ['매우부정', '부정', '중립', '긍정', '매우긍정'];
 
@@ -292,7 +292,7 @@ function drawPieCharts(result) {
     createSentences('chart2-2Sentences', result[1][2], result[1][3]);
 }
 
-function drawPieCharts2(result) {
+function drawModel3Charts(result) {
     const chartNames = [result[0][0], result[1][0]];
   
     const createPieConfig = (chartName, data, backgroundColor, labels) => {
