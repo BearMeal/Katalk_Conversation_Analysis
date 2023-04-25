@@ -3,20 +3,6 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import UploadFileForm
 from .utils import predict_result1, predict_result2, predict_result3, get_from_txt, save_data_to_db
-'''
-def index(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            txt_file = handle_uploaded_file(request.FILES['file'])
-            result = predict_result2(txt_file)  # 딥러닝 모델 호출 및 결과 예측
-            # os.remove(txt_file)  # 임시 파일 삭제
-            prediction_list = result.tolist()
-            return JsonResponse({'result': prediction_list})
-    else:
-        form = UploadFileForm()
-    return render(request, 'myapp/index.html', {'form': form})
-'''
 
 def index(request):
     if request.method == 'POST':
@@ -44,9 +30,3 @@ def index(request):
 
 def about(request):
     return render(request, 'myapp/about.html')
-
-def post(request):
-    return render(request, 'myapp/post.html')
-
-def detail(request):
-    return render(request, 'myapp/detail.html')

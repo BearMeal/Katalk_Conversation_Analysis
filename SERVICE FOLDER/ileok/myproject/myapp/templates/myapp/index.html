@@ -48,8 +48,6 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'about' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'post' %}">Sample Post</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'detail' %}">Detail</a></li>
                     </ul>
                 </div>
             </div>
@@ -100,7 +98,7 @@
                 <div id="chartContainer1" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
                     <canvas id="myChart1"></canvas>
     
-                    <p style="margin-top: 10px;">이곳에 모델1 간단한 설명글을 넣으세요.</p>
+                    {% comment %} <p style="margin-top: 10px;" id="model1describe">이곳에 모델1 간단한 설명글을 넣으세요.</p> {% endcomment %}
                 </div>
                 <div id="chartContainer2" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
                     <div>
@@ -140,7 +138,7 @@
                         </div>
                         
                     </div>
-                    <p style="margin-top: 10px;">이곳에 모델2 간단한 설명글을 넣으세요.</p>
+                    {% comment %} <p style="margin-top: 10px;" id="model2describe">이곳에 모델2 간단한 설명글을 넣으세요.</p> {% endcomment %}
                 </div>
 
                 <div id="chartContainer3" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
@@ -159,7 +157,7 @@
                         </div>
                         
                     </div>
-                    <p style="margin-top: 10px;">이곳에 모델3 간단한 설명글을 넣으세요.</p>
+                    {% comment %} <p style="margin-top: 10px;" id="model3describe">이곳에 모델3 간단한 설명글을 넣으세요.</p> {% endcomment %}
                 </div>
             </div>
             
