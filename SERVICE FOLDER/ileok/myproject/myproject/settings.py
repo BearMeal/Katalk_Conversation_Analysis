@@ -14,9 +14,8 @@ from pathlib import Path
 import os
 import sys
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-# rel_path = BASE_DIR / "../../../finalmodels/model1/"
 rel_path = BASE_DIR / "../../../finalmodels/"
 sys.path.insert(0, str(rel_path))
 
@@ -33,7 +32,7 @@ SECRET_KEY = 'django-insecure-9+ngwqkxoy)0e&71b45uc8d-gjwiu#w^a14s=*10#j0u!dn0&#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

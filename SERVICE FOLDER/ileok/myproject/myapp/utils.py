@@ -1,16 +1,19 @@
 import os
 from myapp.models import MyModel, User_kakao_data
 import numpy as np
-import pickle
-from django.conf import settings
-from konlpy.tag import Okt
+# import pickle
+# from django.conf import settings
+# from konlpy.tag import Okt
 import re
-from soynlp.normalizer import repeat_normalize
+# from soynlp.normalizer import repeat_normalize
 from datetime import datetime
 from model1 import kakao_predict1
 from model2 import kakao_predict2
 from model3 import kakao_predict3
-from transformers import TFAlbertForSequenceClassification, AlbertTokenizer
+
+import concurrent.futures
+import asyncio
+# from transformers import TFAlbertForSequenceClassification, AlbertTokenizer
 
 def txt_to_numpy_array(file_path):
     if os.path.isfile(file_path):
@@ -97,18 +100,36 @@ def predict_result3(sentences):
     )
     return result
 
-def predict_models(uploaded_file):
-    sentences = get_from_txt(uploaded_file)  # 텍스트 파일에서 데이터 추출
-    print('***get_from_txt 완료***')
-    save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
-    print('***save_data_to_db 완료***')
-    result1 = predict_result1(sentences)  # 딥러닝 모델 호출 및 결과 예측
-    print('***model1 OK***')
-    print(result1)
-    result2 = predict_result2(sentences)  # 딥러닝 모델2 호출 및 결과 예측
-    print('***model2 OK***')
-    print(result2)
-    result3 = predict_result3(sentences)  # 딥러닝 모델2 호출 및 결과 예측
-    print('***model3 OK***')
-    print(result3)
-    return result1, result2, result3
+# def predict_models(uploaded_file):
+#     sentences = get_from_txt(uploaded_file)  # 텍스트 파일에서 데이터 추출
+#     print('***get_from_txt 완료***')
+#     # save_data_to_db(sentences)  # 추출된 데이터를 DB에 저장
+#     # print('***save_data_to_db 완료***')
+#     # result1 = predict_result1(sentences)  # 딥러닝 모델 호출 및 결과 예측
+#     # print('***model1 OK***')
+#     # print(result1)
+#     # result2 = predict_result2(sentences)  # 딥러닝 모델2 호출 및 결과 예측
+#     # print('***model2 OK***')
+#     # print(result2)
+#     # result3 = predict_result3(sentences)  # 딥러닝 모델2 호출 및 결과 예측
+#     # print('***model3 OK***')
+#     # print(result3)
+
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         future1 = executor.submit(predict_result1, sentences)
+#         future2 = executor.submit(predict_result2, sentences)
+#         future3 = executor.submit(predict_result3, sentences)
+#     result1 = future1.result()
+#     result2 = future2.result()
+#     result3 = future3.result()
+
+#     return result1, result2, result3
+
+async def predict_models(uploaded_file):
+    sentences = get_from_txt(uploaded_file)
+    loop = asyncio.get_running_loop()
+    future1 = loop.run_in_executor(None, predict_result1, sentences)
+    future2 = loop.run_in_executor(None, predict_result2, sentences)
+    future3 = loop.run_in_executor(None, predict_result3, sentences)
+    result_list = await asyncio.gather(future1, future2, future3)
+    return tuple(result_list)
