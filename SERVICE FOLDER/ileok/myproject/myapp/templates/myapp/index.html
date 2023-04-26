@@ -80,7 +80,7 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form }}
-                    <button type="submit">전송</button>
+                    <button type="submit" id="submit-button">전송</button>
                 </form>
             </div>
             <!-- Add this before the result div -->            
@@ -95,11 +95,9 @@
                     <button id="toggleButton1" class="btn btn-secondary">모델1</button>
                     <button id="toggleButton2" class="btn btn-secondary">모델2</button>
                     <button id="toggleButton3" class="btn btn-secondary">모델3</button>
-                    
                   </div>
                 </div>
               </div>
-            
             <div>
                 <div id="chartContainer1" style="width: 70%; margin: auto; margin-top: 50px; display: none;">
                     <canvas id="myChart1"></canvas>

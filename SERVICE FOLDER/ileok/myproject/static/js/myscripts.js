@@ -1,7 +1,16 @@
 const form = document.querySelector('form');
 
+const submitButton = document.querySelector('#submit-button');
+const fileInput = document.querySelector('input[type="file"]');
+
+
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    const resultDiv = document.querySelector('#result');
+    resultDiv.innerHTML = '';
+
+    // fileInput.disabled = true;
+    submitButton.disabled = true;
 
     // Show loading text and start updating it
     const loadingDiv = document.querySelector('#loading');
@@ -17,11 +26,13 @@ form.addEventListener('submit', async (event) => {
     var errorboom = false;
 
     let data;
+    fileInput.disabled = false;
     try {
         const responsePromise = fetch('/', {
             method: 'POST',
             body: formData,
         });
+        fileInput.disabled = true;
 
         // Wait for both the response and the minimum 3 seconds
         const [response] = await Promise.all([responsePromise, sleep(3000)]);
@@ -30,6 +41,7 @@ form.addEventListener('submit', async (event) => {
             throw new Error('Network response was not ok');
         }
         data = await response.json();
+        
     } catch (error) {
         // Handle the error and display "오류 발생"
         console.error('Error:', error);
@@ -42,6 +54,7 @@ form.addEventListener('submit', async (event) => {
     }
 
     if (!errorboom) {
+        console.log('!errorboom')
         toggleButton1.style.display = 'block';
         toggleButton2.style.display = 'block';
         toggleButton3.style.display = 'block'; // Show the Model 1 button
@@ -55,10 +68,16 @@ form.addEventListener('submit', async (event) => {
         const chartContainer3 = document.querySelector('#chartContainer3');
         chartContainer3.style.display = 'none';
         drawModel3Charts(data.result3)
+        
+        fileInput.disabled = false;
+        submitButton.disabled = false;
 
     } else {
         const resultDiv = document.querySelector('#result');
         resultDiv.innerHTML = data.result;
+
+        fileInput.disabled = false;
+        submitButton.disabled = false;
     }
 });
 
@@ -384,8 +403,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const inputFile = document.querySelector('input[type="file"]');
-inputFile.addEventListener('change', () => {
+// const inputFile = document.querySelector('input[type="file"]');
+fileInput.addEventListener('change', () => {
     const resultDiv = document.querySelector('#result');
     resultDiv.innerHTML = '';        
     const chartContainer1 = document.getElementById('chartContainer1');
