@@ -1,5 +1,6 @@
-# 100million
-# 안녕하세요 100million 팀의 프로젝트 레포지토리입니다.
+# Team 100million's project
+# 안녕하세요. 100million 팀의 프로젝트 레포지토리입니다.
+# 카톡 txt파일의 로버트 플루치크의 심리진화론적 분류에 따른 감정분석
 
 - 브랜치 전략 : master브랜치를 동기화 해놓고 각자 브랜치에서 각자 작업한후에 기능별로 커밋하고 master브랜치에서 본인의 브랜치를 머지해온다.(바로 머지 때리면 자동머지되니까 fetch해서 conflict확인수정하고 머지하는것도 좋음)   
 -     ex)branch--master 위치에서 git merge(또는 fetch) 본인브랜치
